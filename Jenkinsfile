@@ -2,7 +2,7 @@ pipeline {
   agent { label 'vm3' }
 
   environment {
-    APP_REPO = 'https://github.com/heroku/node-js-getting-started.git'
+    APP_REPO = 'https://github.com/pdkkdp/node-js-getting-started.git'
     IMAGE_NAME = 'node-ci-app'
   }
 
