@@ -15,10 +15,10 @@ pipeline {
       }
     }
 
-    stage('Install Dependencies') {
+    stage('Build Docker Image') {
       steps {
         dir('app') {
-          sh 'npm install'
+          sh "docker build -t ${IMAGE_NAME} ."
         }
       }
     }
@@ -27,25 +27,13 @@ pipeline {
       parallel {
         stage('Lint') {
           steps {
-            dir('app') {
-              sh 'npm run lint || echo "No linter configured"'
-            }
+            sh "docker run --rm ${IMAGE_NAME} npm run lint || echo 'No linter configured'"
           }
         }
         stage('Test') {
           steps {
-            dir('app') {
-              sh 'npm test || echo "No tests configured"'
-            }
+            sh "docker run --rm ${IMAGE_NAME} npm test || echo 'No tests configured'"
           }
-        }
-      }
-    }
-
-    stage('Build Docker Image') {
-      steps {
-        dir('app') {
-          sh "docker build -t ${IMAGE_NAME} ."
         }
       }
     }
