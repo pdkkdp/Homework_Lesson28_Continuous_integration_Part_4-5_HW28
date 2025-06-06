@@ -15,6 +15,12 @@ pipeline {
       }
     }
 
+    stage('Prepare Dockerfile') {
+      steps {
+        sh 'cp Dockerfile app/'
+      }
+    }
+
     stage('Build Docker Image') {
       steps {
         dir('app') {
